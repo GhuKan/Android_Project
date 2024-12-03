@@ -21,34 +21,42 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.projekt_1.ui.theme.Projekt_1Theme
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.FirebaseAnalytics
+
 
 class MainActivity : ComponentActivity() {
+    private lateinit var analytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        analytics = Firebase.analytics
+
         enableEdgeToEdge()
         setContent {
             Projekt_1Theme {
-
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "screen_a") {
-                    composable(
-                        route = "screen_a"
-                    ) {
+                    composable(route = "screen_a") {
                         ScreenA(
-                            navigateToB = {navController.navigate("screen_b")}, navigateToC = {navController.navigate("screen_c")})
-
+                            navigateToB = { navController.navigate("screen_b") },
+                            navigateToC = { navController.navigate("screen_c") }
+                        )
                     }
-                    composable(
-                        route = "screen_b"
-                    ) {
+                    composable(route = "screen_b") {
                         ScreenB(
-                            navigateToC = {navController.navigate("screen_c")}, navigateToA = {navController.navigate("screen_a")})
+                            navigateToC = { navController.navigate("screen_c") },
+                            navigateToA = { navController.navigate("screen_a") }
+                        )
                     }
-                    composable(
-                        route = "screen_c"
-                    ) {
+                    composable(route = "screen_c") {
                         ScreenC(
-                            navigateToA = {navController.navigate("screen_a")}, navigateToB = {navController.navigate("screen_b")})
+                            navigateToA = { navController.navigate("screen_a") },
+                            navigateToB = { navController.navigate("screen_b") }
+                        )
                     }
                 }
             }
